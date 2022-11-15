@@ -60,3 +60,6 @@ X_test = data.reindex(test_index)
 X_test = X_test[top_snp].values
 
 tmp = knn(X_train, y_train, X_test)
+
+
+# reference : https://nittaku.tistory.com/286
