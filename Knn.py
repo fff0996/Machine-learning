@@ -1,15 +1,15 @@
 import numpy as np
 import pandas as pd
-
+from sklearn.metrics import accuracy_score
 
 
 #Load Dataset
 dataset = pd.read_csv("dataset_path")
 
 
-X = dataset.iloc[:, :-1].values
-y = dataset.iloc[:, 4].values
-
+X = dataset.iloc[:, 1:-1]
+y = dataset.iloc[:, -1]
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
 
@@ -21,6 +21,26 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
+from itertools import combinations
+ll = list(combinations(items, 2))
+ll = np.asarray(ll)
+
+
+for i in range(0,len(ll)):
+  x_train = X_train[ll[i]].values
+  x_test = X_test[ll[i]].values
+  
+  scaler = StandardScaler()
+  scaler.fit(x_train)
+  classifier = KNeighborsClassifier(n_neighbors=5)
+  classifier.fit(x_train, y_train)
+  
+  y_pred = classifier.predict(x_test)
+  #accuracy = accuracy_score(y_test,y_pred)
+  print('pgs combination',ll[i])
+  print('acc:{0:.4f}'.format(accuracy_score(y_test,y_pred)))
+  
+  
 # Training and Predictions
 from sklearn.neighbors import KNeighborsClassifier
 classifier = KNeighborsClassifier(n_neighbors=5)
