@@ -63,3 +63,4 @@ tmp = knn(X_train, y_train, X_test)
 
 
 # reference : https://nittaku.tistory.com/286
+# reference : https://jaaamj.tistory.com/35
