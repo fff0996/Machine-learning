@@ -47,4 +47,16 @@ plt.title('Feature importances Top 20')
 sns.barplot(x = top20, y = top20.index)
 plt.show()
 
+fs = RandomForestClassifier(max_features = 20, n_estimators=20, random_state=41)
+fs.fit(X_train, y_train)
+ranking = dict(zip(snp, fs.feature_importances_))
+ranking = dict(itertools.islice(ranking.items(), n_features))
+top_snp = list(ranking.keys())
+top_snp = np.asarray(top_snp)
+
+X_train = data.drop(test_index)
+X_train = X_train[top_snp].values
+X_test = data.reindex(test_index)
+X_test = X_test[top_snp].values
+
 tmp = knn(X_train, y_train, X_test)
