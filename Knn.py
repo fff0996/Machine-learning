@@ -36,19 +36,15 @@ print(classification_report(y_test, y_pred))
 
 
 import itertools
-ranking = dict(itertools.islice(ranking.items(), n_features))
-top_snp = list(ranking.keys())
-top_snp = np.asarray(top_snp)
-fs = RandomForestClassifier(max_features = 20, n_estimators=20, random_state=41)
-fs.fit(X_train, y_train)
-ranking = dict(zip(snp, fs.feature_importances_))
-ranking = dict(itertools.islice(ranking.items(), n_features))
-top_snp = list(ranking.keys())
-top_snp = np.asarray(top_snp)
 
-X_train = data.drop(test_index)
-X_train = X_train[top_snp].values
-X_test = data.reindex(test_index)
-X_test = X_test[top_snp].values
+import matplotlib.pyplot as plt
+
+importances_values = rf.feature_importances_
+importances = pd.Series(importances_values, index=x_train.columns)
+top20 = importances.sort_values(ascending=False)[:20]
+plt.figure(figsize=(8, 6))
+plt.title('Feature importances Top 20')
+sns.barplot(x = top20, y = top20.index)
+plt.show()
 
 tmp = knn(X_train, y_train, X_test)
