@@ -1,7 +1,12 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
-
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from itertools import combinations
+from sklearn.metrics import classification_report, confusion_matrix
+import matplotlib.pyplot as plt
 
 #Load Dataset
 dataset = pd.read_csv("dataset_path")
@@ -9,19 +14,18 @@ dataset = pd.read_csv("dataset_path")
 
 X = dataset.iloc[:, 1:-1]
 y = dataset.iloc[:, -1]
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
 
 #Feature Scaling
-from sklearn.preprocessing import StandardScaler
+
 scaler = StandardScaler()
 scaler.fit(X_train)
 
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-from itertools import combinations
+
 ll = list(combinations(items, 2))
 ll = np.asarray(ll)
 
@@ -42,20 +46,20 @@ for i in range(0,len(ll)):
   
   
 # Training and Predictions
-from sklearn.neighbors import KNeighborsClassifier
+
 classifier = KNeighborsClassifier(n_neighbors=5)
 classifier.fit(X_train, y_train)
 
 y_pred = classifier.predict(X_test)
 
 # Evaluating the Algorithm
-from sklearn.metrics import classification_report, confusion_matrix
+
 print(confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
 
 
 
-import itertools
+
 
 import matplotlib.pyplot as plt
 
